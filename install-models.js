@@ -1,10 +1,10 @@
 const axios = require("axios");
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 
 const modelUrls = {
   "facenet-model":
-    "https://github.com/GOOD-I-DEER/node-red-contrib-face-vectorization/raw/main/model/facenet-model.onnx",
+    "https://github.com/smcgann99/node-red-face-vectorization-plus/raw/main/model/facenet-model.onnx",
 };
 
 const downloadDir = path.join(__dirname, "model");
