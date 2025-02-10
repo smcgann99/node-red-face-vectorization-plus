@@ -1,0 +1,39 @@
+{
+  "name": "@good-i-deer/node-red-contrib-face-vectorization",
+  "version": "1.0.11",
+  "description": "Face Image Vectorization Node for Node-RED",
+  "keywords": [
+    "node-red",
+    "Face",
+    "Vectorization",
+    "Vector",
+    "FaceNet"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GOOD-I-DEER/node-red-contrib-face-vectorization.git"
+  },
+  "author": "GOOD-I-DEER",
+  "node-red": {
+    "nodes": {
+      "FaceVectorization": "face-vectorization.js"
+    }
+  },
+  "dependencies": {
+    "axios": "^0.29.0",
+    "fs": "^0.0.1-security",
+    "onnxruntime-node": "^1.20.1",
+    "path": "^0.12.7",
+    "sharp": "^0.33.5"
+  },
+  "private": false,
+  "bugs": {
+    "url": "https://github.com/GOOD-I-DEER/node-red-contrib-face-vectorization/issues"
+  },
+  "homepage": "https://github.com/GOOD-I-DEER/node-red-contrib-face-vectorization#readme",
+  "main": "face-vectorization.js",
+  "scripts": {
+    "postinstall": "node install-models.js"
+  }
+}
