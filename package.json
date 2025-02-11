@@ -15,16 +15,41 @@
     "url": "git+https://github.com/smcgann99/node-red-face-vectorization-plus.git"
   },
   "author": "S.McGann",
+  "contributors": [
+    {
+      "name": "S McGann"
+    },
+    {
+      "name": "Kim Jaea"
+    },
+    {
+      "name": "Yi Jong Min"
+    },
+    {
+      "name": "Lee Deok Yong"
+    },
+    {
+      "name": "Lee Che Lim"
+    },
+    {
+      "name": "Lee Hyo Sik"
+    },
+    {
+      "name": "Jung Gyu Sung"
+    }
+  ],
   "node-red": {
+    "version": ">=4.0.0",
     "nodes": {
       "FaceVectorization": "face-vectorization.js"
     }
   },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
-    "axios": "^0.29.0",
-    "fs": "^0.0.1-security",
+    "axios": "^1.7.9",
     "onnxruntime-node": "^1.20.1",
-    "path": "^0.12.7",
     "sharp": "^0.33.5"
   },
   "private": false,

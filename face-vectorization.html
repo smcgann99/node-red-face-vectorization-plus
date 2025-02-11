@@ -1,6 +1,6 @@
 <script type="text/javascript">
-  RED.nodes.registerType("good-face-vectorization", {
-    category: "GOOD I DEER",
+  RED.nodes.registerType("face-vectorization-plus", {
+    category: "AI VISION",
     color: "#1AE5BE",
     defaults: {
       name: { value: "" },
@@ -43,10 +43,10 @@
     },
     inputs: 1,
     outputs: 1,
-    paletteLabel: "Good Face Vectorization",
+    paletteLabel: "Face Vectorization Plus",
     icon: "status.svg",
     label: function () {
-      return this.name || "Good Face Vectorization";
+      return this.name || "Face Vectorization";
     },
     inputLabels: ["Single Face Image"],
     outputLabels: ["Face Vector Array"],
@@ -62,7 +62,7 @@
   });
 </script>
 
-<script type="text/html" data-template-name="good-face-vectorization">
+<script type="text/html" data-template-name="face-vectorization-plus">
   <div class="form-row">
     <label for="node-input-name"><i class="fa fa-tag"></i> Name </label>
     <input type="text" id="node-input-name" placeholder="Name" />
@@ -105,6 +105,6 @@
   </div>
 </script>
 
-<script type="text/html" data-help-name="good-face-vectorization">
+<script type="text/html" data-help-name="face-vectorization-plus">
   <p>A node that converts the face image payloads into vector data</p>
 </script>

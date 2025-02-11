@@ -1,4 +1,4 @@
-# @GOOD-I-DEER/node-red-contrib-face-vectorization
+# @S.McGann/node-red-face-vectorization-plus
 
 [![platform](https://img.shields.io/badge/platform-Node--RED-red)](https://nodered.org)
 [![npm version](https://badge.fury.io/js/@good-i-deer%2Fnode-red-contrib-face-vectorization.svg)](https://badge.fury.io/js/@good-i-deer%2Fnode-red-contrib-face-vectorization)
