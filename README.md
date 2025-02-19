@@ -3,7 +3,7 @@
 [![Min Node Version](https://img.shields.io/node/v/@smcgann/node-red-face-vectorization-plus)](https://www.npmjs.com/package/@smcgann/node-red-annotate-image-plus)
 [![GitHub license](https://img.shields.io/github/license/smcgann99/node-red-face-vectorization-plus)](https://github.com/smcgann99/node-red-face-vectorization-plus/blob/main/LICENSE)
 
-# @s.mcgann/node-red-face-vectorization-plus
+# @smcgann/node-red-face-vectorization-plus
 
 A <a href="http://nodered.org" target="_blank">Node-RED</a> node that vectorizes facial images using AI in Node-RED.
 
