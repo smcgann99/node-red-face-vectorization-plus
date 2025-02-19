@@ -1,202 +1,98 @@
-# @S.McGann/node-red-face-vectorization-plus
-
 [![platform](https://img.shields.io/badge/platform-Node--RED-red)](https://nodered.org)
-[![npm version](https://badge.fury.io/js/@good-i-deer%2Fnode-red-contrib-face-vectorization.svg)](https://badge.fury.io/js/@good-i-deer%2Fnode-red-contrib-face-vectorization)
-[![GitHub license](https://img.shields.io/github/license/GOOD-I-DEER/node-red-contrib-face-vectorization)](https://github.com/GOOD-I-DEER/node-red-contrib-face-vectorization/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/@smcgann/node-red-face-vectorization-plus.svg)](https://www.npmjs.com/package/@smcgann/node-red-face-vectorization-plus)
+[![Min Node Version](https://img.shields.io/node/v/@smcgann/node-red-face-vectorization-plus)](https://www.npmjs.com/package/@smcgann/node-red-annotate-image-plus)
+[![GitHub license](https://img.shields.io/github/license/smcgann99/node-red-face-vectorization-plus)](https://github.com/smcgann99/node-red-face-vectorization-plus/blob/main/LICENSE)
 
-This module provides a node that vectorizes facial photos using AI in Node-RED.
+# @s.mcgann/node-red-face-vectorization-plus
 
-These nodes require node.js version 18.16.1 and Node-RED version 3.1.0.
+A <a href="http://nodered.org" target="_blank">Node-RED</a> node that vectorizes facial images using AI in Node-RED.
 
-<hr>
+You can use the output of this node with 🔗 [@smcgann99/node-red-cosine-similarity-plus](https://www.npmjs.com/package/@smcgann/node-red-cosine-similarity-plus) 
+ as part of a face recognition flow. 
 
-## Description
+This node is based on 🔗 [@good-i-deer/node-red-contrib-face-vectorization](https://www.npmjs.com/package/@good-i-deer/node-red-contrib-face-vectorization)
 
-This node is part of the Facial Recognition with AI package.  
-If you would like to see the entire package, please go to the link.
-[@good-i-deer/node-red-contrib-vision-ai](https://www.npmjs.com/package/@good-i-deer/node-red-contrib-vision-ai)
+## **Key Changes**
+ 
+✔ Added **Typed Input** for incoming msg property.   
+✔ Updated **dependencies**.    
+✔ Removed **unnecessary dependencies**.  
+✔ **Easier integration** into Node-RED flows.
 
-The **AI** used in this node uses the **Inception ResNet v1** architecture, an implementation of the **FaceNet** model in Pytorch, and is trained on the **VGGFace2** dataset.  
-It converts the pre-trained model into **onnx** format and operates through the **onnx-runtime** module. Files are provided directly to reduce dependency on external APIs.  
-The input image buffer is converted into 512 vector values and provided.
+---
+## **Installation**
+Either use the Edit Menu - Manage Palette option to install, or run the following command in your Node-RED user directory - typically `~/.node-red`
 
-<hr>
-
-## Pre-requisites
-
-The Node-Red-Contrib-Face-Vectorization requires [Node-RED](https://nodered.org) to be installed.
-
-<hr>
-
-## Install
-
-```
+``` bash
 cd ~/.node-red
-npm install @good-i-deer/node-red-contrib-face-vectorization
+npm install @smcgann/node-red-face-vectorization-plus
 ```
 
 Restart your Node-RED instance
 
-<hr>
+---
 
-## Input
+## **Input Properties** 
 
-Single Image
+### 👤 Single Image
 
-- The input is an image file containing one face. Used for input to one image buffer.
+- The input can be one of the following:
+  - Buffer: A Buffer containing the image data.
+  - File Path: A string representing the file path to the image.
 
-Image Array
+### 👥 Image Array
 
-- The image buffer can be input in the form of an array. It can be used when there is a possibility of extracting and transmitting face photos of multiple people from linked nodes.
-<hr>
+ -  The input should be an array of Buffers, each containing the image data for one face.
+---
 
-## property
+## **Node Properties**  
+<img width="500" alt="Properties" src="https://raw.githubusercontent.com/smcgann99/node-red-face-vectorization-plus/main/assets/config.png">
 
-![image](https://github.com/GOOD-I-DEER/node-red-contrib-face-vectorization/assets/112360329/004b2539-aaaf-4b77-83fd-c80c02aa79db)
+### 🏷️ **Name**  
+- The name displayed in the Node-RED editor.  
 
-Name
+### **Property**
+- Incomming `msg` property to use ( `Default msg.payload` )
 
-- The name of the node displayed on the screen.
+### 📥 **Input Type**
 
-Input Type
+- You can choose whether to input a single image or multiple images.
+  - **Single Image**: Insert one image buffer, file path, or URL.
+  - **Multiple Images**: Insert multiple image buffers in the form of an array.
 
-- You can choose whether to insert one image buffer or multiple image buffers. In case of multiple image buffers, you can put them in the form of an Array.
+### 📤 **Return Type**
 
-Return Type
+- You can choose how to receive the vector result:
+  - **Output**: Receive the vector result as an array.
+  - **Save to File**: Save the vector result as a file. The data will be saved as an array of vector arrays of faces. When this option is selected, the Path and Method properties are activated. It is recommended to save the data as a text file.
 
-- You can choose whether to receive the vector result as output or save it as a file. The exported data is in the form of an array of vector arrays of faces. When selecting save as file, Path and Method are activated. We recommend saving as a text file.
+### 📂 **Path**
 
-Path
+- Specify the desired file path, including the file name and extension, when saving the vector data as a text file. If an absolute path is not specified, it will be determined based on the execution space.
 
-- This is where you enter the desired root, including the file name and extension, when saving a text file. If you do not specify an absolute path, it will be determined based on the execution space.
+### 🔧 **Method**
 
-Method
+- When saving a file, you can choose whether to:
+  - **Overwrite**: Overwrite the existing file.
+  - **Add**: Append to the existing file. 
+  
+  If the file does not already exist, it will be created.
 
-- When saving a file, you can decide whether to overwrite or add. Create a file if it does not already exist.
-<hr>
-
-## Output
+## 📤 Output
 
 Array of Arrays
 
-- Vectors for faces are output in the form of an array to msg.payload.
+- Vectors for faces are output in the form of an array to `msg.payload`.
 
 Text File
 
-- Save vector data in file format. Depending on the method, overwrite or add to the input path.
+- Save vector data in file format. Depending on the method, overwrite or add to the file.
 <hr>
 
-## Examples
 
-Here are some example flows face vectorization.
-![image](https://github.com/GOOD-I-DEER/node-red-contrib-face-vectorization/assets/112360329/99ba056e-e104-417c-ba4c-9a94747d65da)
 
-### JSON
-
-```
-[
-    {
-        "id": "e64532d90f9d901d",
-        "type": "tab",
-        "label": "Example",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "41638e97512ab913",
-        "type": "good-face-vectorization",
-        "z": "e64532d90f9d901d",
-        "name": "",
-        "inputType": "0",
-        "returnType": "0",
-        "method": "0",
-        "path": "",
-        "x": 450,
-        "y": 40,
-        "wires": [
-            [
-                "754b7ba59d20b8b7"
-            ]
-        ]
-    },
-    {
-        "id": "361b506c1fd58e5e",
-        "type": "file in",
-        "z": "e64532d90f9d901d",
-        "name": "image input",
-        "filename": "",
-        "filenameType": "str",
-        "format": "",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "allProps": false,
-        "x": 250,
-        "y": 40,
-        "wires": [
-            [
-                "41638e97512ab913"
-            ]
-        ]
-    },
-    {
-        "id": "754b7ba59d20b8b7",
-        "type": "debug",
-        "z": "e64532d90f9d901d",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 640,
-        "y": 40,
-        "wires": []
-    },
-    {
-        "id": "559e69aa7caf19ed",
-        "type": "inject",
-        "z": "e64532d90f9d901d",
-        "name": "start",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 90,
-        "y": 40,
-        "wires": [
-            [
-                "361b506c1fd58e5e"
-            ]
-        ]
-    }
-]
-```
-
-<hr>
-
-## Discussions and suggestions
-
-Use [GitHub Issues](https://github.com/GOOD-I-DEER/node-red-contrib-face-vectorization/issues) to ask questions or to discuss new features.
-
-<hr>
-
-## Authors
+## ✍️ Authors
+**[S.McGann](https://github.com/smcgann99)** → Modified Version.  
 
 [**GOOD-I-DEER**](https://github.com/GOOD-I-DEER) in SSAFY(Samsung Software Academy for Youth) 9th
 
@@ -204,12 +100,13 @@ Use [GitHub Issues](https://github.com/GOOD-I-DEER/node-red-contrib-face-vectori
 - [Yi Jong Min](https://github.com/chickennight)
 - [Lee Deok Yong](https://github.com/Gitgloo)
 - [Lee Che Lim](https://github.com/leecr1215)
-- [Lee Hyo Sik](https://github.com/hy06ix)
+- [Lee Hyo sik](https://github.com/hy06ix)
 - [Jung Gyu Sung](https://github.com/ramaking)
 <hr>
 
-## Copyright and license
+## 📜 Copyright and license
 
+S.McGann → Modified Version   
 Copyright Samsung Automation Studio Team under the [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0)
 
 <hr>
