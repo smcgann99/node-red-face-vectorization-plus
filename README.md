@@ -51,7 +51,7 @@ Restart your Node-RED instance
 ### 🏷️ **Name**  
 - The name displayed in the Node-RED editor.  
 
-### **Property**
+### ⚙️ **Property**
 - Incomming `msg` property to use ( `Default msg.payload` )
 
 ### 📥 **Input Type**
