@@ -7,7 +7,7 @@
 
 A <a href="http://nodered.org" target="_blank">Node-RED</a> node that vectorizes facial images using AI.
 
-You can use the output of this node with 🔗 [@smcgann99/node-red-cosine-similarity-plus](https://www.npmjs.com/package/@smcgann/node-red-cosine-similarity-plus) 
+You can use the output of this node with 🔗 [@smcgann/node-red-cosine-similarity-plus](https://www.npmjs.com/package/@smcgann/node-red-cosine-similarity-plus) 
  as part of a face recognition flow. 
 
 This node is based on 🔗 [@good-i-deer/node-red-contrib-face-vectorization](https://www.npmjs.com/package/@good-i-deer/node-red-contrib-face-vectorization)
