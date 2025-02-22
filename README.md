@@ -63,8 +63,8 @@ Restart your Node-RED instance
 ### 📤 **Return Type**
 
 - You can choose how to receive the vector result:
-  - **Output**: Receive the vector result as an array.
-  - **Save to File**: Save the vector result as a file. The data will be saved as an array of vector arrays of faces. When this option is selected, the Path and Method properties are activated. It is recommended to save the data as a text file.
+  - **Array of Arrays**: Receive the vector result as an array.
+  - **Text File**: Save the vector result as a file. The data will be saved as an array of vector arrays of faces. When this option is selected, the Path and Method properties are activated. It is recommended to save the data as a text file.
 
 ### 📂 **Path**
 
@@ -78,7 +78,7 @@ Restart your Node-RED instance
   
   If the file does not already exist, it will be created.
 
-## 📤 Output
+## 📤 Output Properties
 
 Array of Arrays
 
