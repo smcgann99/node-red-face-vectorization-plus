@@ -1,42 +1,46 @@
 <script type="text/javascript">
+  function validateInputType(v) {
+    const returnType = Number(v);
+    if (returnType == 0) {
+      this._def.inputLabels = ["Single Face Image"];
+    } else if (returnType == 1) {
+      this._def.inputLabels = ["Face Image Array"];
+    }
+    return true;
+  }
+
+  function validateReturnType(v) {
+    const returnType = Number(v);
+    if (returnType == 0) {
+      $("#path-form").css("display", "none");
+      $("#method-form").css("display", "none");
+      this.outputs = 1;
+    } else if (returnType == 1) {
+      $("#path-form").css("display", "block");
+      $("#method-form").css("display", "block");
+      this.outputs = 0;
+    }
+    return true;
+  }
+
   RED.nodes.registerType("face-vectorization-plus", {
     category: "AI VISION",
     color: "#1AE5BE",
     defaults: {
       name: { value: "" },
       data: {
-                value: "payload",
-                required: true,
-                validate: RED.validators.typedInput("dataType")
-            },
-            dataType: { value: "msg" },
+        value: "payload",
+        required: true,
+        validate: RED.validators.typedInput("dataType")
+      },
+      dataType: { value: "msg" },
       inputType: {
         value: "0",
-        validate: function (v) {
-          const returnType = Number(v);
-          if (returnType == 0) {
-            this._def.inputLabels = ["Single Face Image"];
-          } else if (returnType == 1) {
-            this._def.inputLabels = ["Face Image Array"];
-          }
-          return true;
-        },
+        validate: validateInputType
       },
       returnType: {
         value: "0",
-        validate: function (v) {
-          const returnType = Number(v);
-          if (returnType == 0) {
-            $("#path-form").css("display", "none");
-            $("#method-form").css("display", "none");
-            this.outputs = 1;
-          } else if (returnType == 1) {
-            $("#path-form").css("display", "block");
-            $("#method-form").css("display", "block");
-            this.outputs = 0;
-          }
-          return true;
-        },
+        validate: validateReturnType
       },
       method: { value: "0" },
       path: { value: "" },
@@ -50,15 +54,13 @@
     },
     inputLabels: ["Single Face Image"],
     outputLabels: ["Face Vector Array"],
-    
-        oneditprepare: function () {
-        $('#node-input-data').typedInput({
-                default: 'msg',
-                typeField: $("#node-input-dataType"),
-                types: ['msg']
-            });
-        }
-    
+    oneditprepare: function () {
+      $('#node-input-data').typedInput({
+        default: 'msg',
+        typeField: $("#node-input-dataType"),
+        types: ['msg']
+      });
+    }
   });
 </script>
 
