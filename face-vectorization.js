@@ -4,33 +4,88 @@ module.exports = function (RED) {
   const path = require("path");
   const fs = require("fs");
 
+  let modelCache = null;
+
+  async function loadModel(modelPath) {
+    if (!modelCache) {
+      modelCache = await onnx.InferenceSession.create(modelPath);
+    }
+    return modelCache;
+  }
+
+  async function imageVectorization(inputData, model) {
+    try {
+      const inputName = model.inputNames[0];
+      const inputDims = [1, 3, 224, 224];
+      const input = await imageTransfer(inputData);
+      const inputTensor = new onnx.Tensor(Float32Array.from(input), inputDims);
+      const feeds = {};
+      feeds[inputName] = inputTensor;
+      const outputData = await model.run(feeds);
+
+      return Array.from(outputData.output.data);
+    } catch (error) {
+      throw new Error("Image vectorization error: " + error.message.split("\n")[0]);
+    }
+  }
+
+  async function imageTransfer(inputData) {
+    try {
+      const img = sharp(inputData);
+
+      const pixels = await img
+        .removeAlpha()
+        .resize({ width: 224, height: 224, fit: "fill" })
+        .raw()
+        .toBuffer();
+
+      const red = [],
+        green = [],
+        blue = [];
+
+      for (let index = 0; index < pixels.length; index += 3) {
+        red.push(pixels[index] / 255.0);
+        green.push(pixels[index + 1] / 255.0);
+        blue.push(pixels[index + 2] / 255.0);
+      }
+
+      const input = [...red, ...green, ...blue];
+
+      return input;
+    } catch (error) {
+      throw new Error("Image transfer error: " + error.message.split("\n")[0]);
+    }
+  }
+
   function FaceVectorizationNode(config) {
     RED.nodes.createNode(this, config);
-    this.data       = config.data || "";
-    this.dataType   = config.dataType || "msg";
+    this.data = config.data || "";
+    this.dataType = config.dataType || "msg";
     const node = this;
-    let inputData
+    let inputData;
     const currentDir = __dirname;
     const modelPath = path.join(currentDir, "model", "facenet-model.onnx");
 
     node.on("input", async function (msg) {
       RED.util.evaluateNodeProperty(node.data, node.dataType, node, msg, (err, value) => {
         if (err) {
-            handleError(err, msg, "Invalid source");
-            return;
+          handleError(err, msg, "Invalid source");
+          return;
         } else {
           inputData = value;
         }
-    });
+      });
 
       try {
         const vectors = [];
+        const model = await loadModel(modelPath);
+
         if (config.inputType == 0) {
-          vectors.push(await imageVectorization(inputData));
+          vectors.push(await imageVectorization(inputData, model));
         } else if (config.inputType == 1) {
-          for (let i = 0; i < inputData.length; ++i) {
-            vectors.push(await imageVectorization(inputData[i]));
-          }
+          const promises = inputData.map(data => imageVectorization(data, model));
+          const results = await Promise.all(promises);
+          vectors.push(...results);
         }
 
         if (config.returnType == 0) {
@@ -59,57 +114,7 @@ module.exports = function (RED) {
         node.error("An error occurred: " + error.message.split("\n")[0]);
       }
     });
-
-    async function imageVectorization(inputData) {
-      try {
-        const model = await onnx.InferenceSession.create(modelPath);
-
-        const inputName = model.inputNames[0];
-
-        const inputDims = [1, 3, 224, 224];
-
-        const input = await imageTransfer(inputData);
-
-        const inputTensor = new onnx.Tensor(Float32Array.from(input), inputDims);
-
-        const feeds = {};
-        feeds[inputName] = inputTensor;
-
-        const outputData = await model.run(feeds);
-
-        return Array.from(outputData.output.data);
-      } catch (error) {
-        throw new Error("Image vectorization error: " + error.message.split("\n")[0]);
-      }
-    }
-
-    async function imageTransfer(inputData) {
-      try {
-        const img = sharp(inputData);
-
-        const pixels = await img
-          .removeAlpha()
-          .resize({ width: 224, height: 224, fit: "fill" })
-          .raw()
-          .toBuffer();
-
-        const red = [],
-          green = [],
-          blue = [];
-
-        for (let index = 0; index < pixels.length; index += 3) {
-          red.push(pixels[index] / 255.0);
-          green.push(pixels[index + 1] / 255.0);
-          blue.push(pixels[index + 2] / 255.0);
-        }
-
-        const input = [...red, ...green, ...blue];
-
-        return input;
-      } catch (error) {
-        throw new Error("Image transfer error: " + error.message.split("\n")[0]);
-      }
-    }
   }
+
   RED.nodes.registerType("face-vectorization-plus", FaceVectorizationNode);
 };

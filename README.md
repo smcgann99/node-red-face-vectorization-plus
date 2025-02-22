@@ -14,7 +14,8 @@ This node is based on 🔗 [@good-i-deer/node-red-contrib-face-vectorization](ht
 
 ## **Key Changes**
  
-✔ Added **Typed Input** for incoming msg property.   
+✔ Added **Typed Input** for incoming msg property.     
+✔ Improved **performance**.     
 ✔ Updated **dependencies**.    
 ✔ Removed **unnecessary dependencies**.  
 ✔ **Easier integration** into Node-RED flows.
